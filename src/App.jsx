@@ -55,25 +55,25 @@ const FallingBurger = () => {
   const containerRef = useRef(null);
   const burgerRef = useRef(null);
   
+  // Store random values on elements or use a simpler approach so it's consistent
   useLayoutEffect(() => {
-    // Add small timeout to ensure DOM is ready for scroll triggers
     const timer = setTimeout(() => {
       const ctx = gsap.context(() => {
         const layers = gsap.utils.toArray('.burger-layer');
         
-        // 1. Initial drop animation
-        gsap.fromTo(layers,
-          { y: -300, opacity: 0, rotation: () => gsap.utils.random(-15, 15) },
-          { 
-            y: 0, 
-            opacity: 1, 
-            rotation: 0, 
-            duration: 1, 
-            stagger: 0.15, 
-            ease: "bounce.out", 
-            delay: 0.8 
-          }
-        );
+        // Ensure starting state is clean
+        gsap.set(layers, { x: 0, y: 0, rotation: 0 });
+
+        // 1. Initial drop entrance (Only runs once)
+        gsap.from(layers, { 
+          y: -300, 
+          opacity: 0, 
+          rotation: (i) => (i % 2 === 0 ? 15 : -15), // deterministic rotation for initial drop
+          duration: 1, 
+          stagger: 0.15, 
+          ease: "bounce.out", 
+          delay: 0.8 
+        });
 
         // 2. Slow floating effect
         gsap.to(burgerRef.current, {
@@ -93,8 +93,8 @@ const FallingBurger = () => {
             end: "bottom bottom",
             scrub: 1
           },
-          y: 150, // slowly travels down
-          rotation: 45, // tilts slightly
+          y: 150,
+          rotation: 45,
           ease: "none"
         });
         
@@ -102,7 +102,7 @@ const FallingBurger = () => {
         gsap.to(layers, {
           scrollTrigger: {
             trigger: "#footer", 
-            start: "top 80%", // when footer enters bottom 20%
+            start: "top 80%",
             end: "bottom bottom",
             scrub: true
           },
@@ -111,11 +111,14 @@ const FallingBurger = () => {
             return spreads[i % spreads.length];
           },
           y: (i) => {
-            const spreads = [200, 150, 250, 180, 280, 120, 300, 190]; // scattered downward drop
+            const spreads = [200, 150, 250, 180, 280, 120, 300, 190];
             return spreads[i % spreads.length];
           },
-          rotation: () => gsap.utils.random(-90, 90),
-          ease: "power2.out"
+          rotation: (i) => {
+            const rots = [-45, 60, -90, 30, -120, 80, -30, 90];
+            return rots[i % rots.length];
+          },
+          ease: "power2.inOut"
         });
         
       });
