@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-dark font-sans overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans tracking-tight;
+  }
+}
+
+@layer utilities {
+  .font-drama {
+    font-family: 'Cormorant Garamond', serif;
+  }
+  
+  .font-mono-data {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+}
