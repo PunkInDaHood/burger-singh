@@ -50,6 +50,119 @@ const Navbar = () => {
   );
 };
 
+// --- COMPONENT: FallingBurger ---
+const FallingBurger = () => {
+  const containerRef = useRef(null);
+  const burgerRef = useRef(null);
+  
+  useLayoutEffect(() => {
+    // Add small timeout to ensure DOM is ready for scroll triggers
+    const timer = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        const layers = gsap.utils.toArray('.burger-layer');
+        
+        // 1. Initial drop animation
+        gsap.fromTo(layers,
+          { y: -300, opacity: 0, rotation: () => gsap.utils.random(-15, 15) },
+          { 
+            y: 0, 
+            opacity: 1, 
+            rotation: 0, 
+            duration: 1, 
+            stagger: 0.15, 
+            ease: "bounce.out", 
+            delay: 0.8 
+          }
+        );
+
+        // 2. Slow floating effect
+        gsap.to(burgerRef.current, {
+          y: -15,
+          duration: 2.5,
+          yoyo: true,
+          repeat: -1,
+          ease: "sine.inOut",
+          delay: 2.5
+        });
+        
+        // 3. Falling / Rotating effect as we scroll down
+        gsap.to(containerRef.current, {
+          scrollTrigger: {
+            trigger: document.body,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1
+          },
+          y: 150, // slowly travels down
+          rotation: 45, // tilts slightly
+          ease: "none"
+        });
+        
+        // 4. Explosion effect at Footer
+        gsap.to(layers, {
+          scrollTrigger: {
+            trigger: "#footer", 
+            start: "top 80%", // when footer enters bottom 20%
+            end: "bottom bottom",
+            scrub: true
+          },
+          x: (i) => {
+            const spreads = [-180, 150, -100, 120, -50, 80, -140, 100];
+            return spreads[i % spreads.length];
+          },
+          y: (i) => {
+            const spreads = [200, 150, 250, 180, 280, 120, 300, 190]; // scattered downward drop
+            return spreads[i % spreads.length];
+          },
+          rotation: () => gsap.utils.random(-90, 90),
+          ease: "power2.out"
+        });
+        
+      });
+      return () => ctx.revert();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div ref={containerRef} className="fixed right-4 md:right-32 top-[40%] md:top-[35%] z-[100] hidden md:flex flex-col items-center justify-end pointer-events-none">
+      <div ref={burgerRef} className="w-52 h-80 relative flex flex-col items-center justify-end gap-1">
+        {/* Top Bun */}
+        <div className="burger-layer z-10 w-40 h-10 bg-[#E5B869] rounded-t-[3rem] rounded-b-md shadow-md border-b-2 border-[#C99C49] relative">
+          <div className="absolute top-2 left-6 w-2 h-1 bg-[#F4E1B3] rounded-full"></div>
+          <div className="absolute top-4 right-8 w-2 h-1 bg-[#F4E1B3] rounded-full"></div>
+          <div className="absolute top-1 right-12 w-1.5 h-1 bg-[#F4E1B3] rounded-full"></div>
+        </div>
+        
+        {/* Cabbage Leaves */}
+        <div className="burger-layer z-10 w-46 h-3 bg-[#8BB85C] rounded-[40%] opacity-90 shadow-sm translate-y-1 rotate-[-2deg] flex items-center justify-around overflow-hidden">
+           <div className="w-4 h-4 bg-[#6A9641] rounded-full -translate-y-2"></div>
+           <div className="w-6 h-6 bg-[#6A9641] rounded-full -translate-y-3"></div>
+        </div>
+        <div className="burger-layer z-10 w-48 h-4 bg-[#759F4D] rounded-full opacity-95 shadow-md -translate-x-1"></div>
+        <div className="burger-layer z-10 w-45 h-3 bg-[#5D8038] rounded-[30%] opacity-90 shadow-sm -translate-y-1 rotate-[3deg]"></div>
+
+        {/* Tomato slice */}
+        <div className="burger-layer z-10 w-42 h-3 bg-[#D9381E] rounded-full shadow-sm"></div>
+        
+        {/* Cheese overlay */}
+        <div className="burger-layer z-10 w-40 h-3 bg-[#F4D03F] rounded-md shadow-sm translate-y-2 rotate-1"></div>
+        
+        {/* Thick Meat Patty */}
+        <div className="burger-layer z-10 w-40 h-10 bg-[#4A3219] rounded-xl shadow-md border-b-[3px] border-[#2A1C0E]"></div>
+
+        {/* Potato Patty */}
+        <div className="burger-layer z-10 w-42 h-7 bg-[#C59B3C] rounded-xl shadow-md border border-[#A37B24] flex overflow-hidden">
+           <div className="w-full h-full opacity-20 bg-[repeating-linear-gradient(45deg,transparent,transparent_2px,#000_2px,#000_4px)]"></div>
+        </div>
+
+        {/* Bottom Bun */}
+        <div className="burger-layer z-10 w-40 h-8 bg-[#E5B869] rounded-b-[2rem] rounded-t-md shadow-xl border-t-2 border-[#C99C49]"></div>
+      </div>
+    </div>
+  );
+};
+
 // --- COMPONENT: HeroSection ---
 const HeroSection = () => {
   const container = useRef(null);
@@ -64,30 +177,7 @@ const HeroSection = () => {
         { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power3.out", delay: 0.2 }
       );
 
-      // Burger stacking animation
-      const layers = gsap.utils.toArray('.burger-layer');
-      gsap.fromTo(layers,
-        { y: -300, opacity: 0, rotation: () => gsap.utils.random(-15, 15) },
-        { 
-          y: 0, 
-          opacity: 1, 
-          rotation: 0, 
-          duration: 1, 
-          stagger: 0.15, 
-          ease: "bounce.out", 
-          delay: 0.8 
-        }
-      );
-      
-      // Floating animation for whole burger
-      gsap.to(burgerRef.current, {
-        y: -15,
-        duration: 2.5,
-        yoyo: true,
-        repeat: -1,
-        ease: "sine.inOut",
-        delay: 2.5
-      });
+      // Floating animation for whole burger - Removed, now in FallingBurger
     }, container);
     return () => ctx.revert();
   }, []);
@@ -120,18 +210,6 @@ const HeroSection = () => {
             <ChevronRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
           </button>
-        </div>
-
-        {/* Animated Burger Art */}
-        <div className="hidden md:flex flex-col items-center justify-end h-full mb-10 mr-12" ref={burgerRef}>
-          <div className="w-48 h-64 relative flex flex-col items-center justify-end gap-1">
-            <div className="burger-layer w-40 h-10 bg-[#E5B869] rounded-t-[3rem] rounded-b-md shadow-md border-b-2 border-[#C99C49]"></div>
-            <div className="burger-layer w-44 h-4 bg-[#759F4D] rounded-full opacity-90 shadow-sm blur-[0.5px]"></div>
-            <div className="burger-layer w-42 h-3 bg-[#D9381E] rounded-full shadow-sm"></div>
-            <div className="burger-layer w-38 h-8 bg-[#4A3219] rounded-xl shadow-md border border-[#382613]"></div>
-            <div className="burger-layer w-40 h-3 bg-[#F4D03F] rounded-md shadow-sm translate-y-1 rotate-1"></div>
-            <div className="burger-layer w-40 h-8 bg-[#E5B869] rounded-b-[2rem] rounded-t-md shadow-xl border-t-2 border-[#C99C49]"></div>
-          </div>
         </div>
 
       </div>
@@ -465,7 +543,7 @@ const Menu = () => {
 // --- COMPONENT: Footer ---
 const Footer = () => {
   return (
-    <footer className="bg-dark text-background rounded-t-[4rem] px-6 py-20 relative overflow-hidden">
+    <footer id="footer" className="bg-dark text-background rounded-t-[4rem] px-6 py-20 pb-40 relative overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10">
         <div className="md:col-span-2">
           <h2 className="font-sans font-bold text-2xl mb-4 text-white">Burger Singh</h2>
@@ -505,6 +583,7 @@ function App() {
   return (
     <div className="font-sans w-full min-h-screen bg-background text-dark selection:bg-accent selection:text-white">
       <Navbar />
+      <FallingBurger />
       <HeroSection />
       <FeatureCards />
       <Philosophy />
