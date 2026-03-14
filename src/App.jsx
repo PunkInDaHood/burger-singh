@@ -98,7 +98,7 @@ const FallingBurger = () => {
           ease: "none"
         });
         
-        // 4. Explosion effect at Footer
+        // 4. Spread effect at Footer (Horizontally flat)
         gsap.to(layers, {
           scrollTrigger: {
             trigger: "#footer", 
@@ -107,17 +107,13 @@ const FallingBurger = () => {
             scrub: true
           },
           x: (i) => {
-            const spreads = [-180, 150, -100, 120, -50, 80, -140, 100];
-            return spreads[i % spreads.length];
+            // Center the spread. Total items = layers.length
+            // E.g., for 8 items, indices 0 to 7 -> shift by -3.5, -2.5...
+            const shift = i - (layers.length - 1) / 2;
+            return shift * 120; // 120px apart horizontally
           },
-          y: (i) => {
-            const spreads = [200, 150, 250, 180, 280, 120, 300, 190];
-            return spreads[i % spreads.length];
-          },
-          rotation: (i) => {
-            const rots = [-45, 60, -90, 30, -120, 80, -30, 90];
-            return rots[i % rots.length];
-          },
+          y: 350, // All fall to the same downward offset
+          rotation: 0, // Perfectly flat
           ease: "power2.inOut"
         });
         
