@@ -125,39 +125,37 @@ const FallingBurger = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="fixed right-4 md:right-32 top-[40%] md:top-[35%] z-[100] hidden md:flex flex-col items-center justify-end pointer-events-none">
-      <div ref={burgerRef} className="w-52 h-80 relative flex flex-col items-center justify-end gap-1">
+    <div ref={containerRef} className="fixed right-4 md:right-32 top-[40%] md:top-[35%] z-[100] hidden md:flex flex-col items-center justify-center pointer-events-none">
+      <div ref={burgerRef} className="w-52 relative flex flex-col items-center justify-center">
         {/* Top Bun */}
-        <div className="burger-layer z-10 w-40 h-10 bg-[#E5B869] rounded-t-[3rem] rounded-b-md shadow-md border-b-2 border-[#C99C49] relative">
-          <div className="absolute top-2 left-6 w-2 h-1 bg-[#F4E1B3] rounded-full"></div>
-          <div className="absolute top-4 right-8 w-2 h-1 bg-[#F4E1B3] rounded-full"></div>
-          <div className="absolute top-1 right-12 w-1.5 h-1 bg-[#F4E1B3] rounded-full"></div>
+        <div className="burger-layer z-10 w-44 h-14 bg-[#E5B869] rounded-t-[3rem] rounded-b-sm border-b border-[#C99C49] relative">
+          <div className="absolute top-3 left-8 w-2.5 h-1.5 bg-[#F4E1B3] rounded-full"></div>
+          <div className="absolute top-6 right-10 w-2 h-1.5 bg-[#F4E1B3] rounded-full"></div>
+          <div className="absolute top-2 right-14 w-2 h-1.5 bg-[#F4E1B3] rounded-full"></div>
         </div>
         
-        {/* Cabbage Leaves */}
-        <div className="burger-layer z-10 w-46 h-3 bg-[#8BB85C] rounded-[40%] opacity-90 shadow-sm translate-y-1 rotate-[-2deg] flex items-center justify-around overflow-hidden">
-           <div className="w-4 h-4 bg-[#6A9641] rounded-full -translate-y-2"></div>
-           <div className="w-6 h-6 bg-[#6A9641] rounded-full -translate-y-3"></div>
-        </div>
-        <div className="burger-layer z-10 w-48 h-4 bg-[#759F4D] rounded-full opacity-95 shadow-md -translate-x-1"></div>
-        <div className="burger-layer z-10 w-45 h-3 bg-[#5D8038] rounded-[30%] opacity-90 shadow-sm -translate-y-1 rotate-[3deg]"></div>
+        {/* Cabbage / Lettuce Leaf */}
+        <div className="burger-layer z-10 w-48 h-4 bg-[#759F4D] rounded-full drop-shadow-sm"></div>
 
-        {/* Tomato slice */}
-        <div className="burger-layer z-10 w-42 h-3 bg-[#D9381E] rounded-full shadow-sm"></div>
+        {/* Tomato Slice */}
+        <div className="burger-layer z-10 w-43 h-3.5 bg-[#D9381E] rounded-md drop-shadow-sm flex justify-around items-center px-4">
+          <div className="w-3 h-1 bg-[#F4A460] rounded-full opacity-60"></div>
+          <div className="w-3 h-1 bg-[#F4A460] rounded-full opacity-60"></div>
+        </div>
         
-        {/* Cheese overlay */}
-        <div className="burger-layer z-10 w-40 h-3 bg-[#F4D03F] rounded-md shadow-sm translate-y-2 rotate-1"></div>
+        {/* Cheese Overlay */}
+        <div className="burger-layer z-10 w-46 h-3 bg-[#F4D03F] rounded-sm drop-shadow-sm"></div>
         
         {/* Thick Meat Patty */}
-        <div className="burger-layer z-10 w-40 h-10 bg-[#4A3219] rounded-xl shadow-md border-b-[3px] border-[#2A1C0E]"></div>
+        <div className="burger-layer z-10 w-44 h-10 bg-[#4A3219] rounded-[10px] shadow-sm border-b-[2px] border-[#2A1C0E]"></div>
 
         {/* Potato Patty */}
-        <div className="burger-layer z-10 w-42 h-7 bg-[#C59B3C] rounded-xl shadow-md border border-[#A37B24] flex overflow-hidden">
-           <div className="w-full h-full opacity-20 bg-[repeating-linear-gradient(45deg,transparent,transparent_2px,#000_2px,#000_4px)]"></div>
+        <div className="burger-layer z-10 w-44 h-6 bg-[#C59B3C] rounded-lg shadow-sm border border-[#A37B24] flex overflow-hidden">
+           <div className="w-full h-full opacity-25 bg-[repeating-linear-gradient(45deg,transparent,transparent_2px,#A37B24_2px,#A37B24_4px)]"></div>
         </div>
 
         {/* Bottom Bun */}
-        <div className="burger-layer z-10 w-40 h-8 bg-[#E5B869] rounded-b-[2rem] rounded-t-md shadow-xl border-t-2 border-[#C99C49]"></div>
+        <div className="burger-layer z-10 w-44 h-10 bg-[#E5B869] rounded-b-[2rem] rounded-t-sm shadow-md border-t border-[#C99C49]"></div>
       </div>
     </div>
   );
