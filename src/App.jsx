@@ -101,12 +101,13 @@ const FallingBurger = () => {
             end: "bottom bottom",
             scrub: true
           }, // End of scrollTrigger object
-          x: (i) => {
-            // Spread them horizontally for a clean showcase at the bottom
+          x: 0, // Keep them vertically aligned!
+          y: (i) => {
+            // Expand the burger out vertically, starting from 350px offset
+            // Top layers shift up less, bottom layers shift down more
             const shift = i - (layers.length - 1) / 2;
-            return shift * 100; // 100px apart horizontally
+            return 350 + (shift * 40); // 40px vertical separation
           },
-          y: 350, // All fall to the same vertical level
           rotation: (i) => (i % 2 === 0 ? 3 : -3), // Very subtle playful rotation
           ease: "power2.inOut"
         });
