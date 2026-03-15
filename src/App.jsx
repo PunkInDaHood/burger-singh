@@ -106,12 +106,27 @@ const FallingBurger = () => {
             // Expand the burger out vertically, starting from 350px offset
             // Top layers shift up less, bottom layers shift down more
             const shift = i - (layers.length - 1) / 2;
-            return 350 + (shift * 40); // 40px vertical separation
+            return 350 + (shift * 60); // INCREASED to 60px vertical separation
           },
-          rotation: (i) => (i % 2 === 0 ? 3 : -3), // Very subtle playful rotation
+          rotation: 0, // Reset subtle chaotic rotation
+          rotationY: 360, // Full 3D 360 Spin!
           ease: "power2.inOut",
           immediateRender: false, // Prevents GSAP from locking initial state too early which can mess up reverse scroll
           transformOrigin: "center center"
+        });
+
+        // 5. Fade in Callout Labels
+        gsap.to('.burger-label', {
+          scrollTrigger: {
+            trigger: "#footer", 
+            start: "top 40%", // Fade in as the burger fully expands
+            end: "bottom bottom",
+            scrub: true
+          },
+          opacity: 1,
+          x: 0,
+          ease: "power2.out",
+          immediateRender: false
         });
         
       });
@@ -122,36 +137,68 @@ const FallingBurger = () => {
 
   return (
     <div ref={containerRef} className="fixed right-4 md:right-32 top-[40%] md:top-[35%] z-[100] hidden md:flex flex-col items-center justify-center pointer-events-none">
-      <div ref={burgerRef} className="w-52 relative flex flex-col items-center justify-center">
+      <div ref={burgerRef} className="w-52 relative flex flex-col items-center justify-center" style={{ perspective: "1000px", transformStyle: "preserve-3d" }}>
         {/* Top Bun */}
-        <div className="burger-layer z-10 w-44 h-14 bg-[#E5B869] rounded-t-[3rem] rounded-b-sm border-b border-[#C99C49] relative">
+        <div className="burger-layer z-10 w-44 h-14 bg-[#E5B869] rounded-t-[3rem] rounded-b-sm border-b border-[#C99C49] relative" style={{ transformStyle: "preserve-3d" }}>
           <div className="absolute top-3 left-8 w-2.5 h-1.5 bg-[#F4E1B3] rounded-full"></div>
           <div className="absolute top-6 right-10 w-2 h-1.5 bg-[#F4E1B3] rounded-full"></div>
           <div className="absolute top-2 right-14 w-2 h-1.5 bg-[#F4E1B3] rounded-full"></div>
+          <div className="burger-label absolute top-1/2 left-full w-56 -translate-y-1/2 opacity-0 -translate-x-10 text-left pointer-events-none border-l border-primary/30 pl-4 ml-8">
+             <div className="font-mono-data text-xs text-primary mb-1 uppercase tracking-widest">L1: Artisan Crown</div>
+             <div className="font-sans text-[10px] text-dark/70 leading-tight">Hand-glazed. Black sesame integration.</div>
+          </div>
         </div>
         
         {/* Cabbage / Lettuce Leaf */}
-        <div className="burger-layer z-10 w-48 h-4 bg-[#759F4D] rounded-full drop-shadow-sm"></div>
+        <div className="burger-layer z-10 w-48 h-4 bg-[#759F4D] rounded-full drop-shadow-sm relative" style={{ transformStyle: "preserve-3d" }}>
+          <div className="burger-label absolute top-1/2 right-full w-48 -translate-y-1/2 opacity-0 translate-x-10 text-right pointer-events-none border-r border-primary/30 pr-4 mr-8">
+             <div className="font-mono-data text-xs text-primary mb-1 uppercase tracking-widest">L2: Organics</div>
+             <div className="font-sans text-[10px] text-dark/70 leading-tight">Hydroponically cultured greens.</div>
+          </div>
+        </div>
 
         {/* Tomato Slice */}
-        <div className="burger-layer z-10 w-43 h-3.5 bg-[#D9381E] rounded-md drop-shadow-sm flex justify-around items-center px-4">
+        <div className="burger-layer z-10 w-43 h-3.5 bg-[#D9381E] rounded-md drop-shadow-sm flex justify-around items-center px-4 relative" style={{ transformStyle: "preserve-3d" }}>
           <div className="w-3 h-1 bg-[#F4A460] rounded-full opacity-60"></div>
           <div className="w-3 h-1 bg-[#F4A460] rounded-full opacity-60"></div>
+          <div className="burger-label absolute top-1/2 left-full w-56 -translate-y-1/2 opacity-0 -translate-x-10 text-left pointer-events-none border-l border-primary/30 pl-4 ml-8">
+             <div className="font-mono-data text-xs text-primary mb-1 uppercase tracking-widest">L3: Nightshade</div>
+             <div className="font-sans text-[10px] text-dark/70 leading-tight">Precision-sliced Roma tomatoes.</div>
+          </div>
         </div>
         
         {/* Cheese Overlay */}
-        <div className="burger-layer z-10 w-46 h-3 bg-[#F4D03F] rounded-sm drop-shadow-sm"></div>
+        <div className="burger-layer z-10 w-46 h-3 bg-[#F4D03F] rounded-sm drop-shadow-sm relative" style={{ transformStyle: "preserve-3d" }}>
+          <div className="burger-label absolute top-1/2 right-full w-48 -translate-y-1/2 opacity-0 translate-x-10 text-right pointer-events-none border-r border-primary/30 pr-4 mr-8">
+             <div className="font-mono-data text-xs text-primary mb-1 uppercase tracking-widest">L4: Dairy Matrix</div>
+             <div className="font-sans text-[10px] text-dark/70 leading-tight">Sharp cheddar smooth melt point.</div>
+          </div>
+        </div>
         
         {/* Thick Meat Patty */}
-        <div className="burger-layer z-10 w-44 h-10 bg-[#4A3219] rounded-[10px] shadow-sm border-b-[2px] border-[#2A1C0E]"></div>
+        <div className="burger-layer z-10 w-44 h-10 bg-[#4A3219] rounded-[10px] shadow-sm border-b-[2px] border-[#2A1C0E] relative" style={{ transformStyle: "preserve-3d" }}>
+          <div className="burger-label absolute top-1/2 left-full w-56 -translate-y-1/2 opacity-0 -translate-x-10 text-left pointer-events-none border-l border-primary/30 pl-4 ml-8">
+             <div className="font-mono-data text-xs text-primary mb-1 uppercase tracking-widest">L5: Core Protein</div>
+             <div className="font-sans text-[10px] text-dark/70 leading-tight">Double-density Wagyu. Maillard crust.</div>
+          </div>
+        </div>
 
         {/* Potato Patty */}
-        <div className="burger-layer z-10 w-44 h-6 bg-[#C59B3C] rounded-lg shadow-sm border border-[#A37B24] flex overflow-hidden">
+        <div className="burger-layer z-10 w-44 h-6 bg-[#C59B3C] rounded-lg shadow-sm border border-[#A37B24] flex overflow-hidden relative" style={{ transformStyle: "preserve-3d" }}>
            <div className="w-full h-full opacity-25 bg-[repeating-linear-gradient(45deg,transparent,transparent_2px,#A37B24_2px,#A37B24_4px)]"></div>
+           <div className="burger-label absolute top-1/2 right-full w-48 -translate-y-1/2 opacity-0 translate-x-10 text-right pointer-events-none border-r border-primary/30 pr-4 mr-8">
+             <div className="font-mono-data text-xs text-primary mb-1 uppercase tracking-widest">L6: Starch Base</div>
+             <div className="font-sans text-[10px] text-dark/70 leading-tight">Acoustic crunch texture module.</div>
+          </div>
         </div>
 
         {/* Bottom Bun */}
-        <div className="burger-layer z-10 w-44 h-10 bg-[#E5B869] rounded-b-[2rem] rounded-t-sm shadow-md border-t border-[#C99C49]"></div>
+        <div className="burger-layer z-10 w-44 h-10 bg-[#E5B869] rounded-b-[2rem] rounded-t-sm shadow-md border-t border-[#C99C49] relative" style={{ transformStyle: "preserve-3d" }}>
+          <div className="burger-label absolute top-1/2 left-full w-56 -translate-y-1/2 opacity-0 -translate-x-10 text-left pointer-events-none border-l border-primary/30 pl-4 ml-8">
+             <div className="font-mono-data text-xs text-primary mb-1 uppercase tracking-widest">L7: Foundation</div>
+             <div className="font-sans text-[10px] text-dark/70 leading-tight">Toasted brioche base. High integrity.</div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -575,15 +622,22 @@ const Footer = () => {
 // --- MAIN APP ---
 function App() {
   return (
-    <div className="font-sans w-full min-h-screen bg-background text-dark selection:bg-accent selection:text-white">
-      <Navbar />
-      <FallingBurger />
-      <HeroSection />
-      <FeatureCards />
-      <Philosophy />
-      <Protocol />
-      <Menu />
-      <Footer />
+    <div className="font-sans w-full min-h-screen bg-background text-dark selection:bg-accent selection:text-white relative overflow-x-hidden">
+      {/* Cinematic Background Ambient Video */}
+      <video autoPlay loop muted playsInline className="fixed inset-0 w-full h-full object-cover opacity-[0.06] pointer-events-none z-0 mix-blend-difference">
+        <source src="https://cdn.pixabay.com/video/2021/08/11/84687-587219504_tiny.mp4" type="video/mp4" />
+      </video>
+
+      <div className="relative z-10">
+        <Navbar />
+        <FallingBurger />
+        <HeroSection />
+        <FeatureCards />
+        <Philosophy />
+        <Protocol />
+        <Menu />
+        <Footer />
+      </div>
     </div>
   );
 }
