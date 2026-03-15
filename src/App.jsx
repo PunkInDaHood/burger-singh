@@ -89,8 +89,7 @@ const FallingBurger = () => {
             end: "bottom bottom",
             scrub: 1
           },
-          y: 150,
-          rotation: 45,
+          y: 200, // No rotation! Let it just fall smoothly.
           ease: "none"
         });
         
@@ -101,15 +100,14 @@ const FallingBurger = () => {
             start: "top 80%",
             end: "bottom bottom",
             scrub: true
-          },
+          }, // End of scrollTrigger object
           x: (i) => {
-            // Center the spread. Total items = layers.length
-            // E.g., for 8 items, indices 0 to 7 -> shift by -3.5, -2.5...
+            // Spread them horizontally for a clean showcase at the bottom
             const shift = i - (layers.length - 1) / 2;
-            return shift * 120; // 120px apart horizontally
+            return shift * 100; // 100px apart horizontally
           },
-          y: 350, // All fall to the same downward offset
-          rotation: 0, // Perfectly flat
+          y: 350, // All fall to the same vertical level
+          rotation: (i) => (i % 2 === 0 ? 3 : -3), // Very subtle playful rotation
           ease: "power2.inOut"
         });
         
