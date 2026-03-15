@@ -14,10 +14,6 @@ const Navbar = () => {
       ScrollTrigger.create({
         start: 'top -10',
         end: 99999,
-        toggleClass: {
-          className: 'bg-background/80 backdrop-blur-xl border-dark/10 text-primary shadow-sm',
-          targets: navRef.current
-        },
         onToggle: (self) => {
           if (!self.isActive) {
             navRef.current.classList.remove('bg-background/80', 'backdrop-blur-xl', 'border-dark/10', 'text-primary', 'shadow-sm');
