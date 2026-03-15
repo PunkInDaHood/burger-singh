@@ -109,7 +109,9 @@ const FallingBurger = () => {
             return 350 + (shift * 40); // 40px vertical separation
           },
           rotation: (i) => (i % 2 === 0 ? 3 : -3), // Very subtle playful rotation
-          ease: "power2.inOut"
+          ease: "power2.inOut",
+          immediateRender: false, // Prevents GSAP from locking initial state too early which can mess up reverse scroll
+          transformOrigin: "center center"
         });
         
       });
